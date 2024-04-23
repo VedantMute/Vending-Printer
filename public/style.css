@@ -1,0 +1,224 @@
+/* Import Google font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+:root {
+  --font-color: #ffffff;
+  --bg-color: #0e1016 ;
+  --bglight-color: rgba(10, 41, 84, 0.626);
+  
+}
+body{
+  color: var(--font-color);
+  background: var(--bg-color);
+  
+}
+.body{
+  display: flex;
+
+
+  justify-content: center;
+  /* min-height: 100vh; */
+}
+
+::selection{
+  color: var(--font-color);;
+  background: #325399;
+}
+.wrapper{
+  width: 430px;
+  background: var(--bglight-color);;
+  border-bottom-left-radius:  16px ;
+  border-bottom-right-radius:  16px ;
+  padding: 30px;
+  box-shadow: 7px 7px 12px rgba(0,0,0,0.05);
+ 
+}
+.wrapper header{
+  color: var(--font-color);;
+  font-size: 27px;
+  font-weight: 600;
+  text-align: center;
+}
+.wrapper form{
+  height: 167px;
+  display: flex;
+  cursor: pointer;
+  margin: 30px 0;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 5px;
+  border: 2px dashed var(--font-color);;
+}
+form :where(i, p){
+  color: var(--font-color);;
+}
+form i{
+  font-size: 50px;
+}
+form p{
+  margin-top: 15px;
+  font-size: 16px;
+}
+
+section .row{
+  margin-bottom: 10px;
+  background: #9db0c6;
+  list-style: none;
+  padding: 15px 20px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #000000;
+}
+section .row i{
+  font-size: 30px;
+}
+section .details span{
+  font-size: 14px;
+}
+.progress-area .row .content{
+  width: 100%;
+  margin-left: 15px;
+}
+.progress-area .details{
+  display: flex;
+  align-items: center;
+  margin-bottom: 7px;
+  justify-content: space-between;
+}
+.progress-area .content .progress-bar{
+  height: 6px;
+  width: 100%;
+  margin-bottom: 4px;
+  background: #103337;
+  border-radius: 30px;
+}
+.content .progress-bar .progress{
+  height: 100%;
+  width: 0%;
+  background: #6990F2;
+  border-radius: inherit;
+}
+.uploaded-area{
+  max-height: 232px;
+  overflow-y: scroll;
+}
+.uploaded-area.onprogress{
+  max-height: 150px;
+}
+.uploaded-area::-webkit-scrollbar{
+  width: 0px;
+}
+.uploaded-area .row .content{
+  display: flex;
+  align-items: center;
+}
+.uploaded-area .row .details{
+  display: flex;
+  margin-left: 15px;
+  flex-direction: column;
+}
+.uploaded-area .row .details .size{
+  color: #404040;
+  font-size: 11px;
+}
+.uploaded-area i.fa-check{
+  font-size: 16px;
+}
+
+.bottom-bar{
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 430px;
+  
+}
+.left{
+  font-size: 32px;
+  color: rgb(255, 255, 255);
+}
+.right{
+  height: 50px;
+
+}
+.down{
+  position: relative;
+  /* Ensure the container has a height, either fixed or based on content */
+  min-height: 43vh;
+}
+.bottombar-flex{
+  display: flex;
+  justify-content: space-between;
+  
+}
+@media screen and (max-width: 768px) {
+  .bottom-bar{
+    width: 97vw;
+    padding: 20px 3vw 0 3vw;
+    border-top: 1px solid #646464;
+  }
+  .alert{
+    width: 100vw;
+  }
+}
+#payButton {
+  border-radius: 5px;
+  height: 52px;
+  width: 160px;
+  background-color: var(--bglight-color);
+  color: var(--font-color);
+font-size: 20px;
+font-weight: 600;
+padding: 4px;
+  border: none;
+  box-shadow: 7px 7px 12px rgba(0,0,0,0.05);
+
+}
+#payButton:hover {
+  background: linear-gradient(to right, rgb(0, 62, 86), rgb(0, 28, 81))
+}
+.projectnames{
+  text-align: center;
+  font-size: 9px;
+  letter-spacing: 2px;
+  position: fixed;
+  bottom: 90px;
+  width: 100%;
+  color: #4d4d4d;
+}
+.offer{
+  text-align: center;
+  font-size: 9px;
+  letter-spacing: 2px;
+  position: fixed;
+  bottom: 75px;
+  width: 100%;
+  color: #b9b9b9;
+  background-color: rgba(0, 180, 24, 0.289);
+  
+}
+.clrbtn{
+  height:44px ;
+  width:44px ;
+  border-radius: 50%;
+  color: white;
+  border: none;
+  margin-right: 4px;
+  margin-top: 10px;
+}
+#bwbtn{
+  background:linear-gradient(to right, white, black, black);
+  border: 4px solid green;
+  
+}
+#cbtn{
+  background:linear-gradient( 45deg , yellow, yellow, red, purple, blue, green);
+}

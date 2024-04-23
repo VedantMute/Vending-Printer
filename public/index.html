@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<!-- Coding By CodingNepal - youtube.com/codingnepal -->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vending Printer</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+</head>
+
+<body>
+  <div class="body">
+    <div class="wrapper">
+      <header>Vending Printer</header>
+      <form action="#">
+        <input class="file-input" type="file" id="fileInput" name="file" multiple hidden>
+        <i class="fas fa-cloud-upload-alt"></i>
+        <p>Tap to select file</p>
+      </form>
+      <section class="progress-area"></section>
+      <section class="uploaded-area"></section>
+      <div class="flex">
+        <button id="bwbtn" class="clrbtn">B/W</button>
+        <button id="cbtn" class="clrbtn">Color</button>
+      </div>
+    </div>
+  </div>
+  <p style="text-align: center; font-size:12px; margin-top: 4px;" class="nop"></p>
+  <div class="projectnames">Innovation by Vedant | Avish | Prathamesh</div>
+  <!-- <div class="offer">Offer! Get 30% off on final prize </div> -->
+  <div class="bottom-bar">
+
+    <!-- -->
+    <div class="bottombar-flex">
+      <div class="left amount-display">
+        </p>
+      </div>
+      <div class="right">
+        <div class="print-button">
+          <button id="payButton">
+            Pay
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="script.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.min.js"></script>
+
+  <script>
+    const form = document.querySelector("form"),
+      fileInput = document.querySelector(".file-input"),
+      progressArea = document.querySelector(".progress-area"),
+      uploadedArea = document.querySelector(".uploaded-area");
+
+    form.addEventListener("click", () => {
+      fileInput.click();
+    });
+
+
+    function uploadFile(name, file) {
+      let xhr = new XMLHttpRequest();
+      xhr.open("POST", "php/upload.php");
+      xhr.upload.addEventListener("progress", ({ loaded, total }) => {
+        let fileLoaded = Math.floor((loaded / total) * 100);
+        let fileTotal = Math.floor(total / 1000);
+        let fileSize;
+        (fileTotal < 1024) ? fileSize = fileTotal + " KB" : fileSize = (loaded / (1024 * 1024)).toFixed(2) + " MB";
+        let progressHTML = `<li class="row">
+                          <i class="fas fa-file-alt"></i>
+                          <div class="content">
+                            <div class="details">
+                              <span class="name">${name} • Uploading</span>
+                              <span class="percent">${fileLoaded}%</span>
+                            </div>
+                            <div class="progress-bar">
+                              <div class="progress" style="width: ${fileLoaded}%"></div>
+                            </div>
+                          </div>
+                        </li>`;
+        console.log(name);
+        
+        uploadedArea.classList.add("onprogress");
+        progressArea.innerHTML += progressHTML;
+        if (loaded == total) {
+          progressArea.innerHTML = "";
+          let uploadedHTML = `<li class="row">
+                            <div class="content upload">
+                              <i class="fas fa-file-alt"></i>
+                              <div class="details">
+                                <span class="name">${name} • Uploaded</span>
+                                <span class="size">${fileSize}</span>
+                              </div>
+                            </div>
+                            <i class="fas fa-check"></i>
+                          </li>`;
+          uploadedArea.classList.remove("onprogress");
+          uploadedArea.insertAdjacentHTML("afterbegin", uploadedHTML);
+        }
+      });
+      let data = new FormData();
+      data.append("file", file);
+      xhr.send(data);
+    }
+
+    const amt = document.querySelector('.amount-display');
+    const np = document.querySelector('.nop');
+
+    fileInput.onchange = (event) => {
+      let files = event.target.files;
+  
+      for (let i = 0; i < files.length; i++) {
+        let file = files[i];
+        if (file) {
+          let fileName = file.name;
+          if (fileName.length >= 12) {
+            let splitName = fileName.split('.');
+            fileName = splitName[0].substring(0, 13) + "... ." + splitName[1];
+          }
+          uploadFile(fileName, file);
+        }
+      }
+      // Calculate total number of pages for all files
+  let totalPages = 0;
+  let filesProcessed = 0;
+  for (let i = 0; i < files.length; i++) {
+    let file = files[i];
+    let fileReader = new FileReader();
+    fileReader.onload = function (event) {
+      let typedarray = new Uint8Array(event.target.result);
+      pdfjsLib.getDocument(typedarray).promise.then(function (pdf) {
+        totalPages += pdf.numPages;
+        filesProcessed++;
+        if (filesProcessed === files.length) {
+          // Calculate total amount for all files
+          let totalAmount = totalPages * 2;
+          console.log("Total number of pages: " + totalPages);
+          console.log("Total amount: " + totalAmount);
+          np.textContent = `Total pages :  ${totalPages}`;
+          amt.textContent = `₹ ${totalAmount}`;
+        }
+      });
+    };
+    fileReader.readAsArrayBuffer(file);
+      }
+    };
+    $(document).ready(function () {
+      $('#payButton').on('click', function () {
+        initiatePayment();
+      });
+
+      function initiatePayment() {
+        // Implement file upload logic
+        var files = $('#fileInput').prop('files');
+        if (files.length === 0) {
+          alert('Please select at least one file to upload.');
+          return;
+        }
+
+        // Calculate total pages and total amount
+        var totalPages = 0;
+        var filesProcessed = 0; // Track how many files have been processed
+        for (var i = 0; i < files.length; i++) {
+          var file = files[i];
+          var fileReader = new FileReader();
+          fileReader.onload = function (event) {
+            var typedarray = new Uint8Array(event.target.result);
+            pdfjsLib.getDocument(typedarray).promise.then(function (pdf) {
+              totalPages += pdf.numPages;
+              filesProcessed++;
+              if (filesProcessed === files.length) {
+                // All files processed, calculate total amount
+                var totalAmount = totalPages * 2;
+                console.log("Total number of pages: " + totalPages);
+                console.log("Total amount: " + totalAmount);
+
+
+
+
+                // Make a request to the server to initiate the Razorpay payment
+                $.get('/initiate-payment', { amount: totalAmount }, function (data) {
+                  // Once the order is created, redirect to Razorpay checkout
+                  const options = {
+                    key: '', // Your Razorpay API key
+                    amount: totalAmount * 100,
+                    currency: data.currency,
+                    name: 'Vending Printer',
+                    description: 'Payment for products/services',
+                    order_id: data.id,
+                    handler: function (response) {
+                      // Handle the payment success callback here
+                      console.log(response);
+
+                      // Check if the payment was successful
+                      if (response.razorpay_payment_id) {
+                        // Trigger file upload and execute Python script after successful payment
+                        uploadFilesAndExecuteScript(files);
+                      } else {
+                        // Handle payment failure or other scenarios
+                        alert('Payment failed. Please try again.');
+                      }
+                    },
+                    prefill: {
+                      name: 'Your Name',
+                      email: 'your.email@example.com',
+                      contact: '1234567890',
+                    },
+                  };
+
+                  const rzp = new Razorpay(options);
+                  rzp.open();
+                });
+              }
+            });
+          };
+          fileReader.readAsArrayBuffer(file);
+        }
+      }
+      // Function to upload files and execute Python script
+      function uploadFilesAndExecuteScript(files) {
+        var formData = new FormData();
+        for (var i = 0; i < files.length; i++) {
+          formData.append('files', files[i]);
+        }
+
+        // Make a POST request to the server to handle file upload and execute Python script
+        $.ajax({
+          url: '/upload-and-execute-script',
+          type: 'POST',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function (response) {
+            window.location.href = '/success.html';
+          },
+          error: function () {
+            alert('An error occurred while uploading files and executing the script.');
+          }
+        });
+      }
+    });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.8.335/pdf.min.js"></script>
+
+</body>
+
+</html>

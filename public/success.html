@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      :root {
+  --font-color: #ffffff;
+  --bg-color: #0e1016 ;
+  --bglight-color: rgba(10, 41, 84, 0.626);
+  
+}
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body {
+        min-height: 100vh;
+        background: var(--bg-color);
+      }
+      .flex {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+      }
+      h4 {
+        text-align: center;
+        margin-top: 20px;
+      }
+      .back {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        /* width: 430px; */
+        height: 50px;
+        background-color: var(--bglight-color);
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        border-radius: 9px;
+      }
+      .back:hover {
+        background-color: #234388;
+      }
+      a {
+        color: var(--font-color);
+        text-align: center;
+        text-decoration: none;
+      }@media screen and (max-width: 768px) {
+  .back{
+    padding: 0 16px;
+  }
+}
+    </style>
+  </head>
+  <body>
+    <div class="flex">
+      <div>
+        <dotlottie-player
+          src="https://lottie.host/7538911a-e662-4ac8-90a2-c6c48db31c3c/9s3SqjskEi.json"
+          background="transparent"
+          speed="1"
+          style="width: 300px; height: 300px"
+          loop
+          autoplay
+        ></dotlottie-player>
+        <h4>PRINTING IN PROGRESS......</h4>
+      </div>
+    </div>
+    <div class="back">
+      <div>
+        <a href="index.html">Go back to home page</a>
+      </div>
+    </div>
+    <script
+      src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
+      type="module"
+    ></script>
+    <script
+      src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"
+      type="module"
+    ></script>
+  </body>
+</html>
